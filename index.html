@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Spam Detection App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px 0;
+            width: 300px;
+            font-size: 16px;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Spam Detection</h1>
+
+    <input type="text" id="message" placeholder="Enter a message">
+    <br>
+    <button onclick="predict()">Check Message</button>
+
+    <div class="result" id="result"></div>
+
+<script>
+    async function predict() {
+        let userText = document.getElementById("message").value;
+
+        let response = await fetch("https://ml-deployment-task-1.onrender.com/predict", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text: userText })
+        });
+
+        let data = await response.json();
+        document.getElementById("result").innerHTML =
+            "Prediction: " + data.prediction + "<br>" +
+            "Ham Probability: " + data.probabilities.ham + "<br>" +
+            "Spam Probability: " + data.probabilities.spam;
+    }
+</script>
+
+</body>
+</html>
