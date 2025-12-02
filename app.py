@@ -1,3 +1,4 @@
+import numpy as np
 from flask import Flask, request, jsonify
 from joblib import load
 import os
